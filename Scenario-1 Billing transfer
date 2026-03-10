@@ -25,28 +25,3 @@ Tenant must be the same
 
 ✅ This is the preferred approach whenever possible
 
-❌ Scenario 2 — CSP tenant → EA tenant (different tenants)
-This is a TECHNICAL migration
-If the EA is in a different tenant, Microsoft does NOT support a direct move of resources.
-There is:
-
-❌ No Azure Resource Mover
-❌ No Azure Migrate
-❌ No direct ARM move
-
-
-✅ Supported options when tenants are different
-✅ Option A — Transfer the entire CSP subscription to the EA tenant
-(If CSP subscription type allows directory change)
-
-Use “Change directory / Transfer subscription to another Entra tenant”
-Moves the whole subscription into the EA tenant
-Resources stay intact
-
-📌 This is the only supported “lift‑and‑shift” across tenants
- [docs.azure.cn], [azuredoctor.com]
-Trade‑offs
-
-RBAC assignments removed
-Managed identities must be recreated
-Some services don’t survive the transfer

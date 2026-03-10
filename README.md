@@ -1,8 +1,7 @@
 # Azure-CSP-2-EA-migration
 Scenario 1 — Billing transfer (BEST case, no downtime)
 CSP → EA within the SAME Microsoft Entra tenant
-If the CSP subscription and EA enrollment are in the same tenant, Microsoft supports a subscription transfer:
-✅ What happens
+If the CSP subscription and EA enrollment are in the same tenant, Microsoft supports a subscription transfer
 
 
 

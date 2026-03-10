@@ -72,24 +72,4 @@ Supported but narrow scope
 | Azure Migrate | ❌ No |
 | ARM move | ❌ No |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ToolCSP → EA (different tenants)Azure Resource Mover❌ NoAzure Migrate❌ NoARM move❌ No

@@ -17,3 +17,6 @@ If the EA is in a different tenant, Microsoft does NOT support a direct move of 
 | Different tenant, whole estate | **Subscription directory transfer** |
 | Different tenant, selective workloads | **Rebuild + data migration** |
 | VM‑only, minimal downtime | **Azure Site Recovery** |
+
+
+Refer : https://docs.azure.cn/en-us/cost-management-billing/manage/subscription-transfer

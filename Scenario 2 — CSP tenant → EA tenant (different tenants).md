@@ -49,7 +49,6 @@ RBAC
 Networking
 
 
-
 ✅ Fully supported
 ❌ Not lift‑and‑shift
 📌 Microsoft explicitly states that unsupported CSP transfers require resource‑level migration [learn.microsoft.com]
@@ -72,4 +71,5 @@ Supported but narrow scope
 | Azure Migrate | ❌ No |
 | ARM move | ❌ No |
 
-ToolCSP → EA (different tenants)Azure Resource Mover❌ NoAzure Migrate❌ NoARM move❌ No
+
+| ToolCSP → EA (different tenants)Azure Resource Mover❌ NoAzure Migrate❌ NoARM move❌ No

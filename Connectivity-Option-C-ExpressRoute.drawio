@@ -1,0 +1,207 @@
+<mxfile host="app.diagrams.net" version="21.0">
+  <diagram id="OptionC-ExpressRoute" name="Option C - ExpressRoute Connectivity">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="title" value="&lt;b&gt;Option C — Azure ExpressRoute (Private Peering) Connectivity&lt;/b&gt;&#xa;CSP Tenant → EA Tenant Cross-Tenant Migration" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="80" y="20" width="1480" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- SUITABILITY BADGE -->
+        <mxCell id="badge" value="Best For: &gt; 10 TB | Regulated / PII data | Dedicated private bandwidth | Near-zero internet exposure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="320" y="82" width="1000" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ===== CSP TENANT ===== -->
+        <mxCell id="csp" value="CSP Tenant (Source)" style="swimlane;startSize=40;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="135" width="490" height="610" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-vnet" value="VNet: 10.0.0.0/16" style="swimlane;startSize=28;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;html=1;" vertex="1" parent="csp">
+          <mxGeometry x="15" y="50" width="460" height="535" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-blob" value="Blob / ADLS&#xa;/ Azure Files" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#0078D4;strokeColor=#005A9E;fontColor=#ffffff;fontSize=11;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="20" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="csp-sql" value="SQL DB&#xa;/ SQL MI" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#0078D4;strokeColor=#005A9E;fontColor=#ffffff;fontSize=11;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="170" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="csp-vm" value="VMs / Disks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0078D4;strokeColor=#005A9E;fontColor=#ffffff;fontSize=11;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="320" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-pe" value="Private Endpoints&#xa;(Public access disabled)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontColor=#ffffff;fontSize=11;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="110" y="150" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-mig" value="MigrationSubnet 10.0.10.0/24 (AzCopy / DMS Agent)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="20" y="235" width="420" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-nsg" value="NSG: allow EA VNet (10.1.0.0/16) inbound on 443, 1433, 5432" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;fontSize=10;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="20" y="308" width="420" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-gw-sub" value="GatewaySubnet 10.0.255.0/27" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666;fontSize=10;dashed=1;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="110" y="378" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-ergw" value="ExpressRoute Gateway&#xa;(UltraPerformance SKU)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#3A5431;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="90" y="438" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="csp-auth" value="Authorization Key (from ER circuit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#82b366;fontSize=10;" vertex="1" parent="csp-vnet">
+          <mxGeometry x="90" y="512" width="280" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EXPRESSROUTE CIRCUIT CENTER ===== -->
+        <mxCell id="er-bg" value="Azure ExpressRoute Circuit" style="swimlane;startSize=35;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="250" width="560" height="370" as="geometry" />
+        </mxCell>
+
+        <mxCell id="er-provider" value="Connectivity Provider&#xa;(e.g., Equinix, AT&amp;T, BT, Megaport)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="er-bg">
+          <mxGeometry x="130" y="45" width="300" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="er-peering" value="Private Peering&#xa;(Azure private address space)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E8449;strokeColor=#186A3B;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="er-bg">
+          <mxGeometry x="130" y="130" width="300" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="er-bw" value="1 Gbps / 2 Gbps / 5 Gbps / 10 Gbps&#xa;(choose circuit bandwidth at order time)" style="text;html=1;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;align=center;" vertex="1" parent="er-bg">
+          <mxGeometry x="60" y="215" width="440" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="er-sla" value="99.95% SLA | No internet exposure&#xa;Traffic never traverses public internet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="er-bg">
+          <mxGeometry x="100" y="275" width="360" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Auth Key note -->
+        <mxCell id="auth-note" value="Each gateway uses its own&#xa;Authorization Key to connect&#xa;to the same ER circuit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="660" width="250" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EA TENANT ===== -->
+        <mxCell id="ea" value="EA Tenant (Target)" style="swimlane;startSize=40;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="135" width="490" height="610" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-vnet" value="VNet: 10.1.0.0/16" style="swimlane;startSize=28;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;html=1;" vertex="1" parent="ea">
+          <mxGeometry x="15" y="50" width="460" height="535" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-blob" value="Blob / ADLS&#xa;/ Azure Files" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#67AB9F;strokeColor=#007A6C;fontColor=#ffffff;fontSize=11;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="20" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ea-sql" value="SQL DB&#xa;/ SQL MI" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#67AB9F;strokeColor=#007A6C;fontColor=#ffffff;fontSize=11;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="170" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ea-vm" value="VMs / Disks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#67AB9F;strokeColor=#007A6C;fontColor=#ffffff;fontSize=11;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="320" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-pe" value="Private Endpoints&#xa;(Public access: never enabled)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontColor=#ffffff;fontSize=11;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="110" y="150" width="240" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-mig" value="MigrationSubnet 10.1.10.0/24 (DMS Target / ADF IR)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="20" y="235" width="420" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-nsg" value="NSG: allow CSP VNet (10.0.0.0/16) inbound on 443, 1433, 5432" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6d8764;strokeColor=#3A5431;fontColor=#ffffff;fontSize=10;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="20" y="308" width="420" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-gw-sub" value="GatewaySubnet 10.1.255.0/27" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666;fontSize=10;dashed=1;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="110" y="378" width="240" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-ergw" value="ExpressRoute Gateway&#xa;(UltraPerformance SKU)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#3A5431;fontColor=#ffffff;fontStyle=1;fontSize=12;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="90" y="438" width="280" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ea-auth" value="Authorization Key (from ER circuit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#82b366;fontSize=10;" vertex="1" parent="ea-vnet">
+          <mxGeometry x="90" y="512" width="280" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ===== EDGES ===== -->
+        <!-- CSP ER GW → ER Circuit -->
+        <mxCell id="e1" value="" style="endArrow=open;endFill=0;startArrow=open;startFill=0;strokeColor=#82b366;strokeWidth=4;html=1;" edge="1" parent="1" source="csp-ergw" target="er-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- ER Circuit → EA ER GW -->
+        <mxCell id="e2" value="" style="endArrow=open;endFill=0;startArrow=open;startFill=0;strokeColor=#82b366;strokeWidth=4;html=1;" edge="1" parent="1" source="er-bg" target="ea-ergw">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- Data flow CSP PE → EA PE -->
+        <mxCell id="e3" value="Private data flow&#xa;(no internet)" style="endArrow=block;endFill=1;dashed=1;strokeColor=#1E8449;strokeWidth=2;html=1;" edge="1" parent="1" source="csp-pe" target="ea-pe">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== ON-PREMISES (optional) ===== -->
+        <mxCell id="onprem" value="On-Premises&#xa;Network&#xa;(optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="730" y="680" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e-onprem" value="MSEE&#xa;routers" style="endArrow=open;endFill=0;startArrow=open;startFill=0;strokeColor=#82b366;strokeWidth=2;html=1;" edge="1" parent="1" source="onprem" target="er-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===== DEPLOYMENT STEPS ===== -->
+        <mxCell id="steps" value="Deployment Sequence" style="swimlane;startSize=35;fillColor=#f5f5f5;strokeColor=#666;fontStyle=1;fontSize=13;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="800" width="1600" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d1" value="1. Order ER circuit&#xa;from provider&#xa;(2–4 weeks lead)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="10" y="40" width="175" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="2. Create ER Gateway&#xa;in CSP VNet&#xa;(~45 min)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#3A5431;fontColor=#ffffff;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="200" y="40" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="3. Create ER Gateway&#xa;in EA VNet&#xa;(~45 min)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#3A5431;fontColor=#ffffff;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="375" y="40" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="4. Generate Auth Keys&#xa;from ER circuit&#xa;(one per gateway)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="550" y="40" width="165" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="5. Connect CSP GW&#xa;to ER circuit&#xa;(auth key)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E8449;strokeColor=#186A3B;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="730" y="40" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="6. Connect EA GW&#xa;to ER circuit&#xa;(auth key)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E8449;strokeColor=#186A3B;fontColor=#ffffff;fontStyle=1;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="905" y="40" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d7" value="7. Configure Private&#xa;Endpoints + DNS&#xa;(both tenants)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;strokeColor=#BD7000;fontColor=#ffffff;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="1080" y="40" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d8" value="8. Run AzCopy&#xa;/ DMS / ASR&#xa;over ER" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="1255" y="40" width="150" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d9" value="9. Teardown ER&#xa;gateways / circuit&#xa;after migration ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="steps">
+          <mxGeometry x="1420" y="40" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Step arrows -->
+        <mxCell id="ed1" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d1" target="d2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d2" target="d3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d3" target="d4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d4" target="d5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed5" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d5" target="d6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed6" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d6" target="d7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed7" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d7" target="d8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed8" value="" style="endArrow=open;endFill=0;strokeColor=#333;strokeWidth=2;html=1;" edge="1" parent="steps" source="d8" target="d9"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Cost note -->
+        <mxCell id="cost" value="Cost: ~$1,400–$5,500/month (ER circuit + 2× UltraPerformance ER Gateways) | Lead time: 2–4 weeks | Best for regulated / high-volume workloads" style="text;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="930" width="1600" height="35" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
